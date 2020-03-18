@@ -1,2 +1,2 @@
-FROM daocloud.io/yangmiao6/ymffmpeg
+FROM bdfoster/freeswitch:latest
 CMD ["freeswitch"]
