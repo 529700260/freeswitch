@@ -1,5 +1,2 @@
-FROM alpine:latest
-RUN apk --update --no-cache add freeswitch \ 
-  freeswitch-sample-config \ 
-  freeswitch-sounds-en-us-callie-8000
+FROM daocloud.io/yangmiao6/ymffmpeg
 CMD ["freeswitch"]
