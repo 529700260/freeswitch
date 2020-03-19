@@ -14,7 +14,6 @@ RUN mkdir /var/run/sshd && \
     ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N '' && \
     ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N '' && \
     ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N ''
-RUN apt-get install -y --no-install-recommends libedit-dev libldns-dev libpcre3-dev libspeexdsp-dev libspeex-dev libcurl4-openssl-dev libopus-dev libncurses5-dev libtiff-dev libjpeg-dev zlib1g-dev libssl-dev libsqlite3-dev build-essential automake autoconf git-core wget libtool liblua50-dev libsndfile1-dev yasm
 ADD ./start.sh /start.sh
 RUN chmod 755 /start.sh
 
