@@ -23,5 +23,4 @@ RUN echo "sshd:ALL" >> /etc/hosts.allow
 RUN mkdir -p /var/www
 VOLUME /var/www
 WORKDIR /var/www
-ADD ./canal.tar   /var/www/
 ENTRYPOINT ["/bin/bash", "/start.sh"]
