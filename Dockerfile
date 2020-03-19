@@ -1,20 +1,27 @@
-FROM centos
-MAINTAINER  Jin Zhuwei
+FROM daocloud.io/library/java:8u40-b09
+MAINTAINER JiYun Tech Team <mboss0@163.com>
 
-WORKDIR /usr/local/freeswitch
-#COPY ./freeswitch  /usr/local/freeswitch/
-#ADD package.tgz  /usr/local/
-RUN yum install -y http://files.freeswitch.org/freeswitch-release-1-6.noarch.rpm epel-release && \
-yum install -y git gcc-c++ autoconf automake libtool wget python ncurses-devel zlib-devel libjpeg-devel openssl-devel e2fsprogs-devel sqlite-devel libcurl-devel pcre-devel speex-devel ldns-devel libedit-devel libxml2-devel libyuv-devel opus-devel libvpx-devel libvpx2* libdb4* libidn-devel unbound-devel libuuid-devel lua-devel libsndfile-devel yasm-devel libtiff libtiff-devel bzip2  luarocks \
-&& ln -sf /usr/local/freeswitch/bin/freeswitch /usr/bin/ \
-&& ln -sf /usr/local/freeswitch/bin/fs_cli /usr/bin/ \
-&& luarocks install luasocket \
-&& luarocks install lua-cjson \
-&& ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
-&& echo "/usr/local/lib/vad-check/lib" >> /etc/ld.so.conf \
-&& echo "/usr/local/lib/speech-recognize/lib" >> /etc/ld.so.conf \
-&& ldconfig \
-&& yum clean all
+ADD ./sources.list /etc/apt/sources.list
 
+RUN set -x && apt-get update && apt-get install -y --no-install-recommends  openssh-server tzdata  && rm -rf /var/lib/apt/lists/* /etc/apt/sources.list.d/*
+RUN mkdir /var/run/sshd && \
+    rm /etc/localtime && \
+    ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+    echo 'Asia/Shanghai' > /etc/timezone && \
+    echo "Port 22" >> /etc/ssh/sshd_config && \
+    echo "PermitRootLogin yes" >> /etc/ssh/sshd_config && \
+    rm /etc/ssh/ssh_host_* && \
+    ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N '' && \
+    ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -N '' && \
+    ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N ''
 
-ENTRYPOINT ["freeswitch"]
+ADD ./start.sh /start.sh
+RUN chmod 755 /start.sh
+
+RUN echo "sshd:ALL" >> /etc/hosts.allow
+
+RUN mkdir -p /var/www
+VOLUME /var/www
+WORKDIR /var/www
+ADD ./canal.tar   /var/www/
+ENTRYPOINT ["/bin/bash", "/start.sh"]
