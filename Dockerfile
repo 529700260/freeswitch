@@ -10,5 +10,5 @@ RUN /bin/sed -i 's/.*session.*required.*pam_loginuid.so.*/session optional pam_l
 RUN /bin/echo -e "LANG=\"en_US.UTF-8\"" > /etc/default/locale
 EXPOSE 22  
 RUN yum install -y https://files.freeswitch.org/repo/yum/centos-release/freeswitch-release-repo-0-1.noarch.rpm epel-release
-RUN  yum install -y freeswitch-config-vanilla freeswitch-lang-* freeswitch-sounds-*
+RUN  yum install -y freeswitch-config-vanilla freeswitch-lang-* 
 CMD /usr/sbin/sshd -D
