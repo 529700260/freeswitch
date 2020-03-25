@@ -14,7 +14,7 @@ rm -f /lib/systemd/system/anaconda.target.wants/*;
 RUN   yum install wget ;\
    wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo    ; \
    yum cleal all ;\
-   yum install openssh-server  ;\
-   echo '123456' | passwd root ;
+   yum install openssh-server  ;
+ 
 VOLUME [ "/sys/fs/cgroup" ]
 CMD ["/usr/sbin/init"]
