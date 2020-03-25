@@ -6,6 +6,6 @@ RUN   yum install wget ;\
    wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo    ; \
    yum cleal all ;\
    yum install openssh-server  ;\
- echo 'passw0rd' | passwd root 
+
 
 CMD ["/usr/sbin/init"]
